@@ -26,7 +26,7 @@ app.use(logger);
 
 // Rota base de boas-vindas
 app.get('/', (req, res) => {
-    res.json({ mensagem: 'Bem-vindo à API do Salvatore Italian Food! 🍝' });
+    res.json({ mensagem: 'Bem-vindo à API da B7! ' });
 });
 
 // Registro das rotas usando o padrão /api
@@ -40,7 +40,7 @@ app.use('/api/orders', orderRoutes);
 app.use((req, res, next) => {
     res.status(404).json({
         sucesso: false,
-        mensagem: `Rota '${req.url}' não encontrada na API do Salvatore Italian Food.`
+        mensagem: `Rota '${req.url}' não encontrada na API da B7!.`
     });
 });
 
