@@ -7,6 +7,10 @@ const router = express.Router()
 router.post('/', async (req, res) => {
   const { user_id, items, total } = req.body
 
+  if (!Array.isArray(items) || items.length === 0) {
+    return res.status(400).json({ error: 'Pedido deve conter pelo menos um item' })
+  }
+
   // cria pedido
   const { data: order, error } = await supabase
     .from('orders')
@@ -24,7 +28,9 @@ router.post('/', async (req, res) => {
     price: item.price
   }))
 
-  await supabase.from('order_items').insert(orderItems)
+  const { error: itemsError } = await supabase.from('order_items').insert(orderItems)
+
+  if (itemsError) return res.status(400).json(itemsError)
 
   res.json(order)
 })
