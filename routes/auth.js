@@ -5,7 +5,7 @@ const router = express.Router()
 
 // cadastro
 router.post('/register', async (req, res) => {
-  const { email, password } = req.body
+  const { email, password, name } = req.body
 
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -13,6 +13,19 @@ router.post('/register', async (req, res) => {
   })
 
   if (error) return res.status(400).json(error)
+
+  const user = data.user
+
+  // 👇 SALVA NO PROFILES
+  if (user) {
+    await supabase.from('profiles').insert([
+      {
+        id: user.id,
+        email,
+        name
+      }
+    ])
+  }
 
   res.json(data)
 })
