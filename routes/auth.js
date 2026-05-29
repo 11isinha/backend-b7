@@ -3,6 +3,16 @@ import { supabase } from '../supabaseClient.js'
 
 const router = express.Router()
 
+router.get('/', (req, res) => {
+  res.json({
+    message: 'Auth API funcionando',
+    routes: {
+      register: 'POST /api/auth/register',
+      login: 'POST /api/auth/login'
+    }
+  })
+})
+
 // cadastro
 router.post('/register', async (req, res) => {
   const { email, password, name } = req.body

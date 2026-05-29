@@ -3,6 +3,16 @@ import { supabase } from '../supabaseClient.js'
 
 const router = express.Router()
 
+router.get('/', async (req, res) => {
+  const { data, error } = await supabase
+    .from('orders')
+    .select('*')
+
+  if (error) return res.status(400).json(error)
+
+  res.json(data)
+})
+
 // criar pedido
 router.post('/', async (req, res) => {
   const { user_id, items, total } = req.body
